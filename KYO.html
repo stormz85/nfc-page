@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil Sophie Delessert - KYO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function getGeolocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude.toFixed(6);
+            const lon = position.coords.longitude.toFixed(6);
+            const sms = `sms:+33612345678?body=Bonjour, j'ai trouvé Kyo. Voici ma position : https://maps.google.com/?q=${lat},${lon}`;
+            window.location.href = sms;
+          },
+          (error) => {
+            alert("Impossible d'obtenir la géolocalisation : " + error.message);
+          }
+        );
+      } else {
+        alert("La géolocalisation n'est pas supportée par ce navigateur.");
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-xl mx-auto p-6">
+    <div class="bg-white shadow-xl rounded-xl p-6">
+      <div class="flex items-center space-x-6">
+        <div class="w-24 h-24 rounded-full border-4 border-indigo-400 flex items-center justify-center text-indigo-400 text-4xl font-bold">
+          🐾
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800">Kyo Cavalier King Charles</h1>
+          <p class="text-gray-600">Profession : Meilleur ami de l'humain</p>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-indigo-600 font-semibold mb-1">À propos</h2>
+        <p class="text-gray-700">
+          Hello, moi c'est Kyo mâle né en fin 2023. Je suis très sociable et doux avec tout le monde. 
+        </p>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-indigo-600 font-semibold mb-2">Mes Compétences</h2>
+        <div class="bg-gray-50 rounded-lg p-4 shadow text-gray-800">
+          <ul class="list-disc pl-5 space-y-1">
+            <li>J'obéis bien au retour</li>
+            <li>Assis</li>
+            <li>Coucher et à ta place.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-yellow-700 font-semibold mb-2">⚠️ Vous m’avez trouvé ?</h2>
+        <div class="bg-yellow-100 border-l-4 border-yellow-400 p-4 rounded-lg text-gray-800">
+          <ul class="list-disc pl-5 space-y-1 mb-2">
+            <li><strong>Nom :</strong> Kyo </li>
+            <li><strong>Comportement :</strong> Très sociable, adore les humains et les autres chiens et Castré</li>
+            <li><strong>Vaccinations :</strong> Vaccins à jour y compris celui de la rage. </li>
+          </ul>
+          <div class="text-center mt-4">
+            <button onclick="getGeolocation()" class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-orange-600 transition">
+              📍 Partager ma position (avec consentement)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-indigo-600 font-semibold mb-1">Contact de mon humaine Sophie Delessert</h2>
+        <ul class="text-gray-700 space-y-1 mb-4">
+          <li>🏠 <strong>Adresse :</strong> Chemin de la Marouette 1, 1607 Palézieux</li>
+          <li>📍 <strong>Localisation :</strong> Palézieux </li>
+          <li>📞 <strong>Téléphone :</strong> +41793715228 </li>
+        </ul>
+        <div class="flex justify-center gap-2 mb-4 flex-wrap">
+          <a href="sms:+41793715228" class="bg-indigo-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-indigo-600 transition">SMS</a>
+          <a href="https://wa.me/+41793715228" target="_blank" class="bg-green-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-green-600 transition">WhatsApp</a>
+          <a href="tel:+41793715228" class="bg-blue-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-blue-600 transition">Appeler</a>
+          <a href="https://maps.app.goo.gl/TRDEKwqGieP4yUMj7" target="_blank" class="bg-red-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-red-600 transition">Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
