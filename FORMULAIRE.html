@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Créer un Profil Chien</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    iframe { width: 100%; height: 1000px; border: none; margin-top: 2rem; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-4xl mx-auto p-6">
+    <div class="bg-white shadow-lg rounded-xl p-6">
+      <h1 class="text-2xl font-bold text-indigo-600 mb-4">Créer un Profil de Chien 🐶</h1>
+      <form id="dogForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input name="dogName" required class="p-2 border rounded" placeholder="Nom du chien">
+        <input name="dogDescription" class="p-2 border rounded" placeholder="Description (à propos)">
+        <input name="dogSkills" class="p-2 border rounded" placeholder="Compétences (virgules)">
+        <input name="chipNumber" class="p-2 border rounded" placeholder="Numéro de puce">
+        <input name="vaccinations" class="p-2 border rounded" placeholder="Vaccinations">
+        <input name="behavior" class="p-2 border rounded" placeholder="Comportement">
+        <input name="ownerName" class="p-2 border rounded" placeholder="Nom du propriétaire">
+        <input name="address" class="p-2 border rounded" placeholder="Adresse">
+        <input name="city" class="p-2 border rounded" placeholder="Ville">
+        <input name="phone" class="p-2 border rounded" placeholder="Téléphone (+33...)">
+        <input name="email" class="p-2 border rounded col-span-2" placeholder="Email">
+        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 col-span-2">🔍 Générer la fiche</button>
+      </form>
+    </div>
+
+    <iframe id="preview" class="shadow-xl rounded-xl bg-white mt-6"></iframe>
+  </div>
+
+  <script>
+    document.getElementById('dogForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(this));
+      const skills = data.dogSkills.split(',').map(s => `<li>${s.trim()}</li>`).join('');
+
+      const html = `
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>${data.dogName}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function getGeolocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude.toFixed(6);
+            const lon = position.coords.longitude.toFixed(6);
+            const sms = \`sms:${data.phone}?body=Bonjour, j'ai trouvé ${data.dogName}. Voici ma position : https://maps.google.com/?q=\${lat},\${lon}\`;
+            window.location.href = sms;
+          },
+          (error) => {
+            alert("Impossible d'obtenir la géolocalisation : " + error.message);
+          }
+        );
+      } else {
+        alert("La géolocalisation n'est pas supportée.");
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-xl mx-auto p-6">
+    <div class="bg-white shadow-xl rounded-xl p-6">
+      <div class="flex items-center space-x-6">
+        <div class="w-24 h-24 rounded-full border-4 border-indigo-400 flex items-center justify-center text-indigo-400 text-4xl font-bold">🐾</div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800">${data.dogName}</h1>
+          <p class="text-gray-600">Profession : Meilleur ami de l'humain</p>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-indigo-600 font-semibold mb-1">À propos</h2>
+        <p class="text-gray-700">${data.dogDescription}</p>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-indigo-600 font-semibold mb-2">Mes Compétences</h2>
+        <div class="bg-gray-50 rounded-lg p-4 shadow text-gray-800">
+          <ul class="list-disc pl-5 space-y-1">${skills}</ul>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-yellow-700 font-semibold mb-2">⚠️ Vous m’avez trouvé ?</h2>
+        <div class="bg-yellow-100 border-l-4 border-yellow-400 p-4 rounded-lg text-gray-800">
+          <ul class="list-disc pl-5 space-y-1 mb-2">
+            <li><strong>Nom :</strong> ${data.dogName}</li>
+            <li><strong>Comportement :</strong> ${data.behavior}</li>
+            <li><strong>Numéro de puce :</strong> ${data.chipNumber}</li>
+            <li><strong>Vaccinations :</strong> ${data.vaccinations}</li>
+          </ul>
+          <div class="text-center mt-4">
+            <button onclick="getGeolocation()" class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-orange-600 transition">
+              📍 Partager ma position (avec consentement)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-indigo-600 font-semibold mb-1">Contact de mon humain</h2>
+        <ul class="text-gray-700 space-y-1 mb-4">
+          <li>🏠 <strong>Adresse :</strong> ${data.address}</li>
+          <li>📍 <strong>Localisation :</strong> ${data.city}</li>
+          <li>📞 <strong>Téléphone :</strong> ${data.phone}</li>
+          <li>📧 <strong>Email :</strong> ${data.email}</li>
+        </ul>
+        <div class="flex justify-center gap-2 mb-4 flex-wrap">
+          <a href="sms:${data.phone}" class="bg-indigo-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-indigo-600 transition">SMS</a>
+          <a href="https://wa.me/${data.phone.replace(/\D/g,'')}" target="_blank" class="bg-green-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-green-600 transition">WhatsApp</a>
+          <a href="tel:${data.phone}" class="bg-blue-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-blue-600 transition">Appeler</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.address)}" target="_blank" class="bg-red-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-red-600 transition">Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+
+      const previewFrame = document.getElementById("preview");
+      previewFrame.srcdoc = html;
+    });
+  </script>
+</body>
+</html>
