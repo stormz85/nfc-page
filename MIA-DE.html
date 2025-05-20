@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Personenprofil – Vermisstenmeldung</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function getGeolocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude.toFixed(6);
+            const lon = position.coords.longitude.toFixed(6);
+            const sms = `sms:+33698765432?body=Hallo, ich habe eine Person gefunden, die Ihrer Vermisstenanzeige entspricht. Hier ist mein Standort: https://maps.google.com/?q=${lat},${lon}`;
+            window.location.href = sms;
+          },
+          (error) => {
+            alert("Standort konnte nicht abgerufen werden: " + error.message);
+          }
+        );
+      } else {
+        alert("Geolokalisierung wird von diesem Browser nicht unterstützt.");
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-xl mx-auto p-6">
+    <div class="bg-white shadow-xl rounded-xl p-6">
+      <div class="flex items-center space-x-6">
+        <div class="w-24 h-24 rounded-full border-4 border-pink-400 flex items-center justify-center text-pink-400 text-4xl font-bold">
+          👩
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800">MIA</h1>
+          <p class="text-gray-600">2552 Orpund</p>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-pink-600 font-semibold mb-1">Über die Person</h2>
+        <p class="text-gray-700">
+          Ich bin autismus
+        </p>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-pink-600 font-semibold mb-2">Physische Merkmale</h2>
+        <div class="bg-gray-50 rounded-lg p-4 shadow text-gray-800">
+          <ul class="list-disc pl-5 space-y-1">
+            <li>Haare: Blond</li>
+            <li>Augen: Blau</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-red-700 font-semibold mb-2"⚠️ Haben Sie diese Person gesehen?</h2>
+        <div class="bg-red-100 border-l-4 border-red-400 p-4 rounded-lg text-gray-800">
+          <ul class="list-disc pl-5 space-y-1 mb-2">
+            <li><strong>Name:</strong> Mia</li>
+            <li><strong>Alter:</strong> 5 Jahre</li>
+            <li><strong>Gesundheitszustand:</strong> Autismus</li>
+          </ul>
+          <div class="text-center mt-4">
+            <button onclick="getGeolocation()" class="bg-orange-500 text-white px-4 py-2 rounded shadow hover:bg-orange-600 transition">
+              📍 Meinen Standort teilen
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-lg text-pink-600 font-semibold mb-1">Notfallkontakte</h2>
+        <ul class="text-gray-700 space-y-1 mb-4">
+          <li>👤 <strong>Kontaktperson:</strong> Alexandra Elsener ( Mutter )</li>
+          <li>📍 <strong>Adresse:</strong> Hauptstrasse 143, 2552 Orpund</li>
+          <li>📞 <strong>Telefon:</strong> 076 817 98 38</li>
+        </ul>
+        <div class="flex justify-center gap-2 mb-4 flex-wrap">
+          <a href="sms:+41768179838" class="bg-pink-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-pink-600 transition">SMS</a>
+          <a href="https://wa.me/+41768179838" target="_blank" class="bg-green-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-green-600 transition">WhatsApp</a>
+          <a href="tel:+41768179838" class="bg-indigo-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-indigo-600 transition">Anrufen</a>
+          <a href="https://maps.app.goo.gl/eJSrFaWa2CKxYaco6" target="_blank" class="bg-red-500 text-white px-3 py-1.5 text-sm rounded-lg shadow hover:bg-red-600 transition">Karte anzeigen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
